@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="scroll-smooth">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Abdalrhman Mohamed — Portfolio</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   THEME VARIABLES
+═══════════════════════════════════════════ */
+:root {
+  --bg:        #0a0f1a;
+  --bg2:       #0f1623;
+  --card:      #141d2e;
+  --border:    #1e2d45;
+  --accent:    #10b981;
+  --cyan:      #06b6d4;
+  --txt:       #e2ebf5;
+  --txt2:      #8ca0b8;
+  --muted:     #4b6080;
+  --shadow:    rgba(16,185,129,0.18);
+  --ring-a:    #10b981;
+  --ring-b:    #06b6d4;
+}
+[data-theme="light"] {
+  --bg:        #f0f6ff;
+  --bg2:       #e4edf8;
+  --card:      #ffffff;
+  --border:    #c8d8ee;
+  --accent:    #059669;
+  --cyan:      #0891b2;
+  --txt:       #0f1c2e;
+  --txt2:      #4b6080;
+  --muted:     #8ca0b8;
+  --shadow:    rgba(5,150,105,0.15);
+  --ring-a:    #059669;
+  --ring-b:    #0891b2;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--txt);
+  font-family:'Inter',sans-serif;
+  overflow-x:hidden;
+  transition:background .4s,color .4s;
+}
+[lang="ar"] body,[lang="ar"] .ar-font{font-family:'Cairo',sans-serif;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px;}
+::-webkit-scrollbar-thumb:hover{background:var(--accent);}
+
+/* ── CURSOR GLOW ── */
+#cursor-glow{
+  position:fixed;width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,rgba(16,185,129,0.07) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+  transform:translate(-50%,-50%);
+  transition:left .08s,top .08s;
+}
+[data-theme="light"] #cursor-glow{
+  background:radial-gradient(circle,rgba(5,150,105,0.06) 0%,transparent 70%);
+}
+
+/* ── CANVAS PARTICLES ── */
+#particles-canvas{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;}
+
+/* ── GRADIENT TEXT ── */
+.g-text{
+  background:linear-gradient(135deg,var(--accent),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* ── NOISE OVERLAY ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:1;opacity:.4;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;width:100%;z-index:100;
+  background:color-mix(in srgb,var(--bg) 75%,transparent);
+  backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s,background .4s;
+}
+nav.scrolled{border-bottom-color:var(--border);}
+.nav-link{position:relative;color:var(--txt2);font-size:.875rem;font-weight:500;transition:color .25s;}
+.nav-link::after{
+  content:'';position:absolute;bottom:-3px;left:0;width:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),var(--cyan));
+  border-radius:2px;transition:width .3s ease;
+}
+.nav-link:hover,.nav-link.active{color:var(--accent);}
+.nav-link:hover::after,.nav-link.active::after{width:100%;}
+
+/* ── THEME & LANG TOGGLES ── */
+.toggle-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:38px;height:38px;border-radius:50%;border:1px solid var(--border);
+  background:var(--card);color:var(--txt2);cursor:pointer;
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.toggle-btn:hover{border-color:var(--accent);color:var(--accent);box-shadow:0 0 16px var(--shadow);}
+.lang-btn{
+  padding:6px 14px;border-radius:9999px;border:1px solid var(--border);
+  background:var(--card);color:var(--txt2);font-size:.75rem;font-weight:700;
+  cursor:pointer;transition:all .3s;letter-spacing:.05em;
+}
+.lang-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── HERO ── */
+.hero-section{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  background:
+    radial-gradient(ellipse at 15% 50%,rgba(16,185,129,.06) 0%,transparent 55%),
+    radial-gradient(ellipse at 85% 20%,rgba(6,182,212,.05) 0%,transparent 55%),
+    var(--bg);
+}
+[data-theme="light"] .hero-section{
+  background:
+    radial-gradient(ellipse at 15% 50%,rgba(5,150,105,.07) 0%,transparent 55%),
+    radial-gradient(ellipse at 85% 20%,rgba(8,145,178,.06) 0%,transparent 55%),
+    var(--bg);
+}
+
+/* ── PHOTO RING ── */
+.photo-wrap{position:relative;display:flex;align-items:center;justify-content:center;padding:28px;}
+.photo-ring{
+  position:relative;width:260px;height:260px;border-radius:50%;
+  flex-shrink:0;
+}
+.photo-ring::before{
+  content:'';position:absolute;inset:-4px;border-radius:50%;
+  background:conic-gradient(var(--ring-a),var(--ring-b),var(--ring-a));
+  animation:spin 5s linear infinite;z-index:0;
+}
+.photo-ring::after{content:'';position:absolute;inset:2px;border-radius:50%;background:var(--bg);z-index:1;}
+.photo-inner{
+  position:relative;z-index:2;width:100%;height:100%;border-radius:50%;
+  overflow:hidden;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--card),var(--border));
+}
+.photo-inner img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── FLOATING BADGES ── */
+.badge-float{
+  position:absolute;padding:10px 16px;border-radius:14px;
+  backdrop-filter:blur(12px);font-size:.8rem;
+  border:1px solid rgba(255,255,255,.08);
+  transition:transform .3s;z-index:3;
+}
+.badge-float:hover{transform:scale(1.05);}
+.badge-a{
+  top:0;right:0;
+  background:color-mix(in srgb,var(--accent) 12%,transparent);
+  border-color:color-mix(in srgb,var(--accent) 30%,transparent);
+  animation:floatA 4s ease-in-out infinite;
+}
+.badge-b{
+  bottom:0;left:0;
+  background:color-mix(in srgb,var(--cyan) 12%,transparent);
+  border-color:color-mix(in srgb,var(--cyan) 30%,transparent);
+  animation:floatA 4s ease-in-out infinite 2s;
+}
+@keyframes floatA{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+/* ── TILT CARDS ── */
+.tilt{
+  transition:transform .15s ease,box-shadow .3s ease,border-color .3s ease;
+  transform-style:preserve-3d;will-change:transform;
+}
+.tilt:hover{box-shadow:0 20px 60px var(--shadow);border-color:var(--accent)!important;}
+
+/* ── SKILL CHIPS ── */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 13px;border-radius:9999px;font-size:.75rem;font-weight:600;
+  border:1px solid;cursor:default;
+  transition:transform .2s,box-shadow .2s,background .2s;
+}
+.chip:hover{transform:translateY(-3px) scale(1.06);}
+.chip-g{background:color-mix(in srgb,var(--accent) 10%,transparent);color:var(--accent);border-color:color-mix(in srgb,var(--accent) 28%,transparent);}
+.chip-g:hover{background:color-mix(in srgb,var(--accent) 20%,transparent);box-shadow:0 0 18px color-mix(in srgb,var(--accent) 30%,transparent);}
+.chip-c{background:color-mix(in srgb,var(--cyan) 10%,transparent);color:var(--cyan);border-color:color-mix(in srgb,var(--cyan) 28%,transparent);}
+.chip-c:hover{background:color-mix(in srgb,var(--cyan) 20%,transparent);box-shadow:0 0 18px color-mix(in srgb,var(--cyan) 30%,transparent);}
+
+/* ── SECTION ANIMATIONS ── */
+.fade-up{opacity:0;transform:translateY(36px);transition:opacity .7s ease,transform .7s ease;}
+.fade-up.in{opacity:1;transform:translateY(0);}
+.fade-left{opacity:0;transform:translateX(-36px);transition:opacity .7s ease,transform .7s ease;}
+.fade-left.in{opacity:1;transform:translateX(0);}
+.fade-right{opacity:0;transform:translateX(36px);transition:opacity .7s ease,transform .7s ease;}
+.fade-right.in{opacity:1;transform:translateX(0);}
+
+/* ── STAGGER ── */
+.stagger>*{opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .5s ease;}
+.stagger.in>*:nth-child(1){opacity:1;transform:none;transition-delay:.05s;}
+.stagger.in>*:nth-child(2){opacity:1;transform:none;transition-delay:.15s;}
+.stagger.in>*:nth-child(3){opacity:1;transform:none;transition-delay:.25s;}
+.stagger.in>*:nth-child(4){opacity:1;transform:none;transition-delay:.35s;}
+
+/* ── DOTS BG ── */
+.dots{
+  background-image:radial-gradient(color-mix(in srgb,var(--accent) 8%,transparent) 1px,transparent 1px);
+  background-size:30px 30px;
+}
+
+/* ── TIMELINE ── */
+.tl-line{
+  background:linear-gradient(180deg,var(--accent),var(--cyan),transparent);
+  width:2px;position:absolute;left:23px;top:0;bottom:0;
+}
+
+/* ── CV BTN SHIMMER ── */
+.cv-btn{position:relative;overflow:hidden;}
+.cv-btn::before{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  transform:skewX(-20deg);transition:left .5s ease;
+}
+.cv-btn:hover::before{left:160%;}
+
+/* ── GLOWING CTA ── */
+.cta-btn{
+  background:linear-gradient(135deg,var(--accent),var(--cyan));
+  color:#0a0f1a;font-weight:700;border-radius:14px;padding:12px 28px;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:transform .25s,box-shadow .25s;
+  box-shadow:0 0 0 rgba(16,185,129,0);
+}
+.cta-btn:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 8px 40px var(--shadow);}
+
+/* ── OUTLINE BTN ── */
+.outline-btn{
+  border:1px solid var(--border);background:color-mix(in srgb,var(--card) 60%,transparent);
+  color:var(--txt);font-weight:600;border-radius:14px;padding:12px 28px;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:border-color .25s,color .25s,transform .25s;
+}
+.outline-btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);}
+
+/* ── CARD BASE ── */
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:20px;
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+}
+.card:hover{transform:translateY(-5px);box-shadow:0 16px 48px var(--shadow);border-color:var(--accent);}
+
+/* ── TAG ── */
+.tag{
+  display:inline-block;padding:2px 11px;border-radius:9999px;
+  font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+}
+
+/* ── RIPPLE ── */
+.ripple-host{position:relative;overflow:hidden;}
+.ripple-host .ripple{
+  position:absolute;border-radius:50%;
+  background:rgba(16,185,129,.25);
+  transform:scale(0);animation:ripple .6s ease-out;
+  pointer-events:none;
+}
+@keyframes ripple{to{transform:scale(4);opacity:0;}}
+
+/* ── MOON / SUN TOGGLE ANIMATION ── */
+.theme-icon{transition:transform .5s,opacity .3s;}
+.theme-icon.hide{transform:rotate(90deg) scale(0);opacity:0;position:absolute;}
+.theme-icon.show{transform:rotate(0) scale(1);opacity:1;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .photo-ring{width:200px;height:200px;}
+  .badge-a,.badge-b{font-size:.7rem;padding:8px 12px;}
+}
+@media(max-width:480px){
+  .photo-ring{width:170px;height:170px;}
+}
+
+/* ── MAGNETIC BUTTON ── */
+.magnetic{transition:transform .2s cubic-bezier(.23,1,.32,1);}
+
+/* ── SCROLL PROGRESS ── */
+#progress-bar{
+  position:fixed;top:0;left:0;height:2px;width:0%;z-index:200;
+  background:linear-gradient(90deg,var(--accent),var(--cyan));
+  transition:width .1s;
+}
+
+/* ── SECTION DIVIDER ── */
+.section-divider{
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+  margin:0;
+}
+</style>
+</head>
+<body>
+<!-- Cursor glow -->
+<div id="cursor-glow"></div>
+<!-- Particles canvas -->
+<canvas id="particles-canvas"></canvas>
+<!-- Scroll progress -->
+<div id="progress-bar"></div>
+
+<!-- ═══════════════ NAV ═══════════════ -->
+<nav id="navbar">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px;height:66px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+    <!-- Logo -->
+    <span class="g-text" style="font-size:1.4rem;font-weight:900;letter-spacing:-.03em;cursor:default;">AR.</span>
+
+    <!-- Desktop links -->
+    <div id="nav-links" style="display:flex;align-items:center;gap:32px;" class="hidden-mobile">
+      <a href="#about"      class="nav-link" data-en="About"      data-ar="عني">About</a>
+      <a href="#skills"     class="nav-link" data-en="Skills"     data-ar="المهارات">Skills</a>
+      <a href="#experience" class="nav-link" data-en="Experience" data-ar="الخبرات">Experience</a>
+      <a href="#contact"    class="nav-link" data-en="Contact"    data-ar="تواصل">Contact</a>
+    </div>
+
+    <!-- Controls -->
+    <div style="display:flex;align-items:center;gap:10px;">
+      <!-- Language toggle -->
+      <button class="lang-btn" id="lang-btn" onclick="toggleLang(this)" title="تبديل اللغة / Switch Language">
+        <span id="lang-label">AR</span>
+      </button>
+      <!-- Theme toggle -->
+      <button class="toggle-btn magnetic" id="theme-btn" onclick="toggleTheme()" title="تبديل المظهر">
+        <!-- Moon -->
+        <svg id="icon-moon" class="theme-icon show" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg>
+        <!-- Sun -->
+        <svg id="icon-sun" class="theme-icon hide" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <!-- WhatsApp CTA (desktop) -->
+      <a href="https://wa.me/201018588010" target="_blank"
+         class="cta-btn magnetic hidden-mobile"
+         style="padding:9px 18px;font-size:.82rem;border-radius:10px;"
+         data-en="Let's Talk" data-ar="تحدث معي">
+        <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.845L.057 23.49a.5.5 0 00.608.607l5.77-1.507A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.806 9.806 0 01-5.034-1.389l-.36-.214-3.43.896.924-3.353-.235-.374A9.821 9.821 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+        Let's Talk
+      </a>
+      <!-- Mobile burger -->
+      <button id="burger" onclick="toggleMenu()" style="display:none;background:none;border:none;color:var(--txt2);cursor:pointer;padding:4px;">
+        <svg id="burger-icon" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile menu -->
+  <div id="mobile-nav" style="display:none;padding:16px 24px 20px;border-top:1px solid var(--border);flex-direction:column;gap:18px;">
+    <a href="#about"      onclick="closeMenu()" class="nav-link" data-en="About"      data-ar="عني">About</a>
+    <a href="#skills"     onclick="closeMenu()" class="nav-link" data-en="Skills"     data-ar="المهارات">Skills</a>
+    <a href="#experience" onclick="closeMenu()" class="nav-link" data-en="Experience" data-ar="الخبرات">Experience</a>
+    <a href="#contact"    onclick="closeMenu()" class="nav-link" data-en="Contact"    data-ar="تواصل">Contact</a>
+    <a href="https://wa.me/201018588010" target="_blank" class="cta-btn" style="justify-content:center;font-size:.85rem;" data-en="Let's Talk" data-ar="تحدث معي">Let's Talk</a>
+  </div>
+</nav>
+
+<style>
+@media(max-width:768px){
+  .hidden-mobile{display:none!important;}
+  #burger{display:block!important;}
+}
+</style>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero-section" style="position:relative;z-index:2;">
+  <div style="max-width:1200px;margin:0 auto;padding:100px 24px 60px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;width:100%;">
+
+    <!-- LEFT -->
+    <div class="fade-left">
+      <div style="margin-bottom:20px;">
+        <span class="tag" style="background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);"
+              data-en="Available for Opportunities" data-ar="متاح للفرص">Available for Opportunities</span>
+      </div>
+
+      <h1 style="font-size:clamp(2.4rem,5vw,3.6rem);font-weight:900;line-height:1.08;letter-spacing:-.03em;margin-bottom:16px;">
+        <span data-en="Abdalrhman" data-ar="عبدالرحمن">Abdalrhman</span><br/>
+        <span class="g-text">Mohamed</span>
+      </h1>
+
+      <p style="font-size:1.05rem;color:var(--txt2);margin-bottom:10px;font-weight:300;line-height:1.6;">
+        <span data-en="E-commerce · Media Creator · Data Analyst" data-ar="تجارة إلكترونية · إنشاء محتوى · تحليل بيانات">E-commerce · Media Creator · Data Analyst</span>
+      </p>
+      <p style="color:var(--accent);font-weight:600;font-size:.92rem;margin-bottom:20px;"
+         data-en="Medical Student — Zagazig National University"
+         data-ar="طالب طب — جامعة الزقازيق الأهلية">Medical Student — Zagazig National University</p>
+
+      <p style="color:var(--txt2);line-height:1.75;max-width:480px;margin-bottom:36px;font-size:.95rem;"
+         data-en="Blending analytical precision with persuasive storytelling — from Amazon product strategy and high-conversion copywriting to video production and data-driven operations."
+         data-ar="أجمع بين الدقة التحليلية وفن الإقناع — من استراتيجية منتجات أمازون وكتابة المحتوى عالي التحويل إلى إنتاج الفيديو والعمليات المبنية على البيانات.">
+        Blending analytical precision with persuasive storytelling — from Amazon product strategy and high-conversion copywriting to video production and data-driven operations.
+      </p>
+
+      <div style="display:flex;flex-wrap:wrap;gap:14px;">
+        <a href="#contact" class="cta-btn ripple-host magnetic"
+           data-en="Get In Touch" data-ar="تواصل معي">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11 19.79 19.79 0 01.14 2.38 2 2 0 012.12.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.57a16 16 0 006.52 6.52l1.46-1.46a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7a2 2 0 011.73 2.04z"/></svg>
+          Get In Touch
+        </a>
+        <a href="#skills" class="outline-btn magnetic"
+           data-en="View Skills" data-ar="المهارات">
+          View Skills
+        </a>
+        <a href="Abdalrhman_Mohamed_CV.pdf" download class="outline-btn cv-btn magnetic"
+           data-en="Download CV" data-ar="تحميل السيرة">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 4v12M8 12l4 4 4-4"/></svg>
+          Download CV
+        </a>
+      </div>
+    </div>
+
+    <!-- RIGHT — Photo -->
+    <div class="fade-right" style="display:flex;justify-content:center;align-items:center;">
+      <div class="photo-wrap">
+        <div class="photo-ring">
+          <div class="photo-inner">
+            <img id="profile-photo" src="Abdalrhman Mohamed.jpg" alt="Abdalrhman Mohamed"
+                 onload="this.style.display='block';document.getElementById('photo-ph').style.display='none';"
+                 onerror="this.style.display='none';document.getElementById('photo-ph').style.display='flex';"
+                 style="display:none;"/>
+            <div id="photo-ph" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px;text-align:center;">
+              <svg width="52" height="52" fill="none" stroke="var(--accent)" stroke-width="1.5" viewBox="0 0 24 24" style="opacity:.5;"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span style="font-size:.62rem;color:var(--muted);font-weight:700;letter-spacing:.06em;line-height:1.5;">PHOTO HERE<br/>set src="your-photo.jpg"</span>
+            </div>
+          </div>
+        </div>
+        <!-- Floating badges -->
+        <div class="badge-float badge-a">
+          <p style="font-size:.68rem;color:var(--txt2);margin-bottom:2px;" data-en="Amazon" data-ar="أمازون">Amazon</p>
+          <p style="font-weight:700;color:var(--accent);font-size:.85rem;" data-en="E-commerce" data-ar="تجارة إلكترونية">E-commerce</p>
+        </div>
+        <div class="badge-float badge-b">
+          <p style="font-size:.68rem;color:var(--txt2);margin-bottom:2px;" data-en="Media" data-ar="إعلام">Media</p>
+          <p style="font-weight:700;color:var(--cyan);font-size:.85rem;" data-en="Video & Visual" data-ar="فيديو وبصريات">Video & Visual</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scroll arrow -->
+  <div style="position:absolute;bottom:28px;left:50%;transform:translateX(-50%);animation:floatA 2s ease-in-out infinite;z-index:2;">
+    <svg width="22" height="22" fill="none" stroke="var(--accent)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 9l-7 7-7-7"/></svg>
+  </div>
+</section>
+
+<style>
+@media(max-width:768px){
+  .hero-section > div{grid-template-columns:1fr!important;text-align:center;}
+  .hero-section > div > div:last-child{justify-content:center;}
+  .hero-section > div > div:first-child div[style*="flex-wrap"]{justify-content:center;}
+  .photo-wrap{padding:16px;}
+  .badge-a{top:-8px;right:-8px;}
+  .badge-b{bottom:-8px;left:-8px;}
+}
+</style>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════ ABOUT ═══════════════ -->
+<section id="about" class="dots" style="background:var(--bg2);padding:100px 0;position:relative;z-index:2;">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+
+    <div class="fade-up" style="margin-bottom:52px;">
+      <p style="color:var(--accent);font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;margin-bottom:10px;"
+         data-en="About Me" data-ar="عني">About Me</p>
+      <h2 style="font-size:clamp(2rem,4vw,2.8rem);font-weight:900;letter-spacing:-.02em;">
+        <span data-en="Sharp Skills," data-ar="مهارات حادة،">Sharp Skills,</span>
+        <span class="g-text" data-en=" Real Impact" data-ar=" أثر حقيقي"> Real Impact</span>
+      </h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;" class="stagger">
+
+      <div class="card tilt" style="grid-column:span 2;padding:36px;">
+        <div style="display:flex;flex-direction:column;gap:18px;color:var(--txt2);line-height:1.8;font-size:.95rem;">
+          <p data-en="I'm Abdalrhman — a medical student with a sharp commercial mind. My work sits at the intersection of data, persuasion, and visual communication. I've built hands-on experience managing product listings, pricing strategies, and sales copy on Amazon, developing a real instinct for what drives buyers to act."
+             data-ar="أنا عبدالرحمن — طالب طب بعقل تجاري حاد. عملي يجمع بين البيانات والإقناع والتواصل البصري. بنيت خبرة عملية في إدارة قوائم المنتجات واستراتيجيات التسعير ونصوص المبيعات على أمازون، ما منحني حدسًا حقيقيًا بما يدفع العملاء للشراء.">
+            I'm Abdalrhman — a medical student with a sharp commercial mind. My work sits at the intersection of data, persuasion, and visual communication. I've built hands-on experience managing product listings, pricing strategies, and sales copy on Amazon.
+          </p>
+          <p data-en="Outside the clinic and the spreadsheet, I produce and edit video content — from raw footage to final cut. I believe the best work happens when analytical thinking meets creative execution, and that's the space I operate in."
+             data-ar="خارج العيادة وجداول البيانات، أنتج وأحرر محتوى الفيديو — من اللقطات الخام إلى النسخة النهائية. أؤمن أن أفضل الأعمال تنشأ حين يلتقي التفكير التحليلي بالتنفيذ الإبداعي.">
+            Outside the clinic and the spreadsheet, I produce and edit video content — from raw footage to final cut. Analytical thinking meets creative execution.
+          </p>
+          <p data-en="As an active ZMSSA member, I've led team initiatives, managed timelines under pressure, and developed communication skills in both Arabic and English."
+             data-ar="كعضو نشط في رابطة طلاب الطب، قدت مبادرات الفريق وأدرت الجداول الزمنية تحت الضغط وطورت مهارات التواصل باللغتين العربية والإنجليزية.">
+            As an active ZMSSA member, I've led team initiatives, managed timelines under pressure, and developed communication skills in Arabic and English.
+          </p>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="card tilt" style="padding:22px;">
+          <p style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;" data-en="Location" data-ar="الموقع">Location</p>
+          <p style="font-weight:700;color:var(--txt);">🇪🇬 Egypt</p>
+        </div>
+        <div class="card tilt" style="padding:22px;">
+          <p style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;" data-en="Education" data-ar="التعليم">Education</p>
+          <p style="font-weight:700;color:var(--txt);" data-en="Medical Student" data-ar="طالب طب">Medical Student</p>
+          <p style="font-size:.78rem;color:var(--txt2);" data-en="Zagazig National University" data-ar="جامعة الزقازيق الأهلية">Zagazig National University</p>
+        </div>
+        <div class="card tilt" style="padding:22px;">
+          <p style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;" data-en="Languages" data-ar="اللغات">Languages</p>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-weight:600;color:var(--txt);" data-en="Arabic" data-ar="العربية">Arabic</span>
+              <span class="tag" style="background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);" data-en="Fluent" data-ar="طلاقة">Fluent</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-weight:600;color:var(--txt);" data-en="English" data-ar="الإنجليزية">English</span>
+              <span class="tag" style="background:color-mix(in srgb,var(--cyan) 12%,transparent);color:var(--cyan);" data-en="Intermediate" data-ar="متوسط">Intermediate</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+@media(max-width:768px){
+  #about .stagger{grid-template-columns:1fr!important;}
+  #about .stagger > div:first-child{grid-column:span 1!important;}
+}
+</style>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════ SKILLS ═══════════════ -->
+<section id="skills" class="dots" style="background:var(--bg);padding:100px 0;position:relative;z-index:2;">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+
+    <div class="fade-up" style="text-align:center;margin-bottom:56px;">
+      <p style="color:var(--accent);font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;margin-bottom:10px;"
+         data-en="Capabilities" data-ar="القدرات">Capabilities</p>
+      <h2 style="font-size:clamp(2rem,4vw,2.8rem);font-weight:900;letter-spacing:-.02em;">
+        <span data-en="Skills & " data-ar="المهارات &amp; ">Skills & </span>
+        <span class="g-text" data-en="Expertise" data-ar="الخبرات">Expertise</span>
+      </h2>
+    </div>
+
+    <div id="skills-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;" class="stagger">
+
+      <!-- Card 1 -->
+      <div class="card tilt" style="padding:26px;display:flex;flex-direction:column;gap:20px;">
+        <div>
+          <div style="width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;background:color-mix(in srgb,var(--accent) 12%,transparent);border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);">
+            <svg width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h18v18H3zM9 9h6M9 12h6M9 15h4"/></svg>
+          </div>
+          <h3 style="font-weight:700;font-size:.92rem;color:var(--txt);margin-bottom:4px;" data-en="Product & Sales" data-ar="المنتجات والمبيعات">Product & Sales</h3>
+          <p style="font-size:.72rem;color:var(--txt2);" data-en="Amazon · E-commerce" data-ar="أمازون · تجارة إلكترونية">Amazon · E-commerce</p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;">
+          <span class="chip chip-g" data-en="Amazon Seller" data-ar="بائع أمازون">Amazon Seller</span>
+          <span class="chip chip-g" data-en="Product Management" data-ar="إدارة المنتجات">Product Management</span>
+          <span class="chip chip-g" data-en="Pricing Strategy" data-ar="استراتيجية التسعير">Pricing Strategy</span>
+          <span class="chip chip-g" data-en="SEO Copywriting" data-ar="كتابة SEO">SEO Copywriting</span>
+          <span class="chip chip-g" data-en="Competitor Analysis" data-ar="تحليل المنافسين">Competitor Analysis</span>
+          <span class="chip chip-g" data-en="Product Lifecycle" data-ar="دورة حياة المنتج">Product Lifecycle</span>
+          <span class="chip chip-g" data-en="Sales Copy" data-ar="نصوص المبيعات">Sales Copy</span>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card tilt" style="padding:26px;display:flex;flex-direction:column;gap:20px;">
+        <div>
+          <div style="width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;background:color-mix(in srgb,var(--cyan) 12%,transparent);border:1px solid color-mix(in srgb,var(--cyan) 22%,transparent);">
+            <svg width="20" height="20" fill="none" stroke="var(--cyan)" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <h3 style="font-weight:700;font-size:.92rem;color:var(--txt);margin-bottom:4px;" data-en="Media & Visual" data-ar="الميديا والبصريات">Media & Visual</h3>
+          <p style="font-size:.72rem;color:var(--txt2);" data-en="Video · Storytelling" data-ar="فيديو · رواية القصص">Video · Storytelling</p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;">
+          <span class="chip chip-c" data-en="Video Editing" data-ar="تحرير الفيديو">Video Editing</span>
+          <span class="chip chip-c" data-en="Timeline Editing" data-ar="تحرير الجدول الزمني">Timeline Editing</span>
+          <span class="chip chip-c" data-en="Audio Cleanup" data-ar="تنظيف الصوت">Audio Cleanup</span>
+          <span class="chip chip-c" data-en="Color Grading" data-ar="تدريج الألوان">Color Grading</span>
+          <span class="chip chip-c" data-en="Visual Storytelling" data-ar="رواية بصرية">Visual Storytelling</span>
+          <span class="chip chip-c" data-en="Motion Graphics" data-ar="موشن جرافيك">Motion Graphics</span>
+          <span class="chip chip-c" data-en="Post-Production" data-ar="ما بعد الإنتاج">Post-Production</span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card tilt" style="padding:26px;display:flex;flex-direction:column;gap:20px;">
+        <div>
+          <div style="width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;background:color-mix(in srgb,var(--accent) 12%,transparent);border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);">
+            <svg width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 16l4-6 4 4 4-8"/></svg>
+          </div>
+          <h3 style="font-weight:700;font-size:.92rem;color:var(--txt);margin-bottom:4px;" data-en="Data & Operations" data-ar="البيانات والعمليات">Data & Operations</h3>
+          <p style="font-size:.72rem;color:var(--txt2);" data-en="Excel · Microsoft 365" data-ar="إكسل · مايكروسوفت 365">Excel · Microsoft 365</p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;">
+          <span class="chip chip-g" data-en="Advanced Excel" data-ar="إكسل متقدم">Advanced Excel</span>
+          <span class="chip chip-g" data-en="Pivot Tables" data-ar="جداول محورية">Pivot Tables</span>
+          <span class="chip chip-g" data-en="Dashboards" data-ar="لوحات البيانات">Dashboards</span>
+          <span class="chip chip-g" data-en="Data Visualization" data-ar="تصوير البيانات">Data Visualization</span>
+          <span class="chip chip-g" data-en="Word" data-ar="وورد">Word</span>
+          <span class="chip chip-g" data-en="PowerPoint" data-ar="باوربوينت">PowerPoint</span>
+          <span class="chip chip-g" data-en="Outlook" data-ar="أوتلوك">Outlook</span>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="card tilt" style="padding:26px;display:flex;flex-direction:column;gap:20px;">
+        <div>
+          <div style="width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;background:color-mix(in srgb,var(--cyan) 12%,transparent);border:1px solid color-mix(in srgb,var(--cyan) 22%,transparent);">
+            <svg width="20" height="20" fill="none" stroke="var(--cyan)" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <h3 style="font-weight:700;font-size:.92rem;color:var(--txt);margin-bottom:4px;" data-en="Leadership & Soft Skills" data-ar="القيادة والمهارات الناعمة">Leadership & Soft Skills</h3>
+          <p style="font-size:.72rem;color:var(--txt2);" data-en="ZMSSA · Communication" data-ar="رابطة الطلاب · تواصل">ZMSSA · Communication</p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;">
+          <span class="chip chip-c" data-en="Team Leadership" data-ar="قيادة الفريق">Team Leadership</span>
+          <span class="chip chip-c" data-en="Public Speaking" data-ar="خطابة عامة">Public Speaking</span>
+          <span class="chip chip-c" data-en="Arabic Oratory" data-ar="بلاغة عربية">Arabic Oratory</span>
+          <span class="chip chip-c" data-en="Persuasion" data-ar="الإقناع">Persuasion</span>
+          <span class="chip chip-c" data-en="Time Management" data-ar="إدارة الوقت">Time Management</span>
+          <span class="chip chip-c" data-en="Crisis Management" data-ar="إدارة الأزمات">Crisis Management</span>
+          <span class="chip chip-c" data-en="Agile Teamwork" data-ar="عمل جماعي رشيق">Agile Teamwork</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+@media(max-width:1024px){#skills-grid{grid-template-columns:repeat(2,1fr)!important;}}
+@media(max-width:600px){#skills-grid{grid-template-columns:1fr!important;}}
+</style>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════ EXPERIENCE ═══════════════ -->
+<section id="experience" class="dots" style="background:var(--bg2);padding:100px 0;position:relative;z-index:2;">
+  <div style="max-width:900px;margin:0 auto;padding:0 24px;">
+
+    <div class="fade-up" style="text-align:center;margin-bottom:56px;">
+      <p style="color:var(--accent);font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;margin-bottom:10px;"
+         data-en="Journey" data-ar="المسيرة">Journey</p>
+      <h2 style="font-size:clamp(2rem,4vw,2.8rem);font-weight:900;letter-spacing:-.02em;">
+        <span data-en="Experience " data-ar="الخبرة ">Experience </span>
+        <span class="g-text" data-en="Timeline" data-ar="الزمنية">Timeline</span>
+      </h2>
+    </div>
+
+    <div style="position:relative;" class="fade-up">
+      <div class="tl-line"></div>
+
+      <!-- Item 1 -->
+      <div style="position:relative;padding-left:72px;margin-bottom:44px;">
+        <div style="position:absolute;left:0;top:4px;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--accent),var(--cyan));box-shadow:0 0 24px var(--shadow);">
+          <svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+        </div>
+        <div class="card tilt" style="padding:28px;">
+          <div style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;">
+            <div>
+              <h3 style="font-size:1.05rem;font-weight:800;color:var(--txt);" data-en="Amazon E-commerce Specialist" data-ar="متخصص تجارة إلكترونية — أمازون">Amazon E-commerce Specialist</h3>
+              <p style="color:var(--accent);font-weight:600;font-size:.85rem;margin-top:3px;" data-en="Amazon Seller Platform" data-ar="منصة بائع أمازون">Amazon Seller Platform</p>
+            </div>
+            <span class="tag" style="background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);" data-en="E-commerce" data-ar="تجارة إلكترونية">E-commerce</span>
+          </div>
+          <p style="color:var(--txt2);line-height:1.75;margin-bottom:18px;font-size:.9rem;"
+             data-en="Managed end-to-end product operations on Amazon — pricing strategy, listing optimization, competitor analysis, and persuasive SEO-rich product descriptions that improved conversion rates."
+             data-ar="أدرت عمليات المنتجات الشاملة على أمازون — استراتيجية التسعير، تحسين القوائم، تحليل المنافسين، ووصف المنتجات المقنع المحسّن لمحركات البحث الذي حسّن معدلات التحويل.">
+            Managed end-to-end product operations on Amazon — pricing strategy, listing optimization, competitor analysis, and persuasive SEO-rich product descriptions that improved conversion rates.
+          </p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:var(--txt2);"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;"></span><span data-en="Product lifecycle management" data-ar="إدارة دورة حياة المنتج">Product lifecycle management</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:var(--txt2);"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;"></span><span data-en="Dynamic pricing & benchmarking" data-ar="التسعير الديناميكي والمقارنة">Dynamic pricing & benchmarking</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:var(--txt2);"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;"></span><span data-en="High-conversion SEO copywriting" data-ar="كتابة SEO عالية التحويل">High-conversion SEO copywriting</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:var(--txt2);"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;"></span><span data-en="E-commerce analytics & reporting" data-ar="تحليلات التجارة الإلكترونية">E-commerce analytics & reporting</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 2 -->
+      <div style="position:relative;padding-left:72px;margin-bottom:44px;">
+        <div style="position:absolute;left:0;top:4px;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--cyan),var(--accent));box-shadow:0 0 24px rgba(6,182,212,.3);">
+          <svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="card tilt" style="padding:28px;">
+          <div style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;">
+            <div>
+              <h3 style="font-size:1.05rem;font-weight:800;color:var(--txt);" data-en="Active Member — ZMSSA" data-ar="عضو نشط — رابطة طلاب الطب">Active Member — ZMSSA</h3>
+              <p style="color:var(--cyan);font-weight:600;font-size:.85rem;margin-top:3px;" data-en="Zagazig Medical Students & Student Activities" data-ar="رابطة طلاب الطب بالزقازيق والأنشطة الطلابية">Zagazig Medical Students & Student Activities</p>
+            </div>
+            <span class="tag" style="background:color-mix(in srgb,var(--cyan) 12%,transparent);color:var(--cyan);" data-en="Leadership" data-ar="قيادة">Leadership</span>
+          </div>
+          <p style="color:var(--txt2);line-height:1.75;margin-bottom:18px;font-size:.9rem;"
+             data-en="Co-led multiple student initiatives, coordinating cross-functional teams on academic and community events. Developed crisis management, public speaking, and agile execution under real deadlines."
+             data-ar="شاركت في قيادة مبادرات طلابية متعددة، وتنسيق الفرق متعددة الوظائف في الفعاليات الأكاديمية والمجتمعية. طورت مهارات إدارة الأزمات والخطابة العامة والتنفيذ الرشيق تحت المواعيد الفعلية.">
+            Co-led multiple student initiatives, coordinating cross-functional teams on academic and community events. Developed crisis management, public speaking, and agile execution under real deadlines.
+          </p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:var(--txt2);"><span style="width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0;"></span><span data-en="Team coordination & events" data-ar="تنسيق الفريق والفعاليات">Team coordination & events</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:var(--txt2);"><span style="width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0;"></span><span data-en="Public speaking & Arabic oratory" data-ar="خطابة عامة وبلاغة عربية">Public speaking & Arabic oratory</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:var(--txt2);"><span style="width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0;"></span><span data-en="Deadline management under pressure" data-ar="إدارة المواعيد تحت الضغط">Deadline management under pressure</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:var(--txt2);"><span style="width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0;"></span><span data-en="Conflict resolution & persuasion" data-ar="حل النزاعات والإقناع">Conflict resolution & persuasion</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div style="position:relative;padding-left:72px;">
+        <div style="position:absolute;left:0;top:4px;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--accent),#059669);box-shadow:0 0 24px var(--shadow);">
+          <svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422A12.083 12.083 0 0112 21a12.083 12.083 0 01-6.16-10.422L12 14z"/></svg>
+        </div>
+        <div class="card tilt" style="padding:28px;">
+          <div style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;">
+            <div>
+              <h3 style="font-size:1.05rem;font-weight:800;color:var(--txt);" data-en="Medical Student" data-ar="طالب طب">Medical Student</h3>
+              <p style="color:var(--accent);font-weight:600;font-size:.85rem;margin-top:3px;" data-en="Zagazig National University" data-ar="جامعة الزقازيق الأهلية">Zagazig National University</p>
+            </div>
+            <span class="tag" style="background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);" data-en="Ongoing" data-ar="جارٍ">Ongoing</span>
+          </div>
+          <p style="color:var(--txt2);line-height:1.75;font-size:.9rem;"
+             data-en="Pursuing a medical degree while building a diverse professional skillset across e-commerce, media production, and data operations — demonstrating self-discipline, cognitive agility, and time management across demanding parallel tracks."
+             data-ar="أتابع الدراسة الطبية مع بناء مجموعة مهارات مهنية متنوعة في التجارة الإلكترونية وإنتاج الإعلام وعمليات البيانات — مما يُظهر الانضباط الذاتي والرشاقة الذهنية وإدارة الوقت عبر مسارات متوازية مطلوبة.">
+            Pursuing a medical degree while building a diverse professional skillset across e-commerce, media production, and data operations — demonstrating self-discipline, cognitive agility, and time management.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════ CONTACT ═══════════════ -->
+<section id="contact" class="dots" style="background:var(--bg);padding:100px 0;position:relative;z-index:2;">
+  <div style="max-width:900px;margin:0 auto;padding:0 24px;">
+
+    <div class="fade-up" style="text-align:center;margin-bottom:56px;">
+      <p style="color:var(--accent);font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;margin-bottom:10px;"
+         data-en="Let's Connect" data-ar="تواصل معي">Let's Connect</p>
+      <h2 style="font-size:clamp(2rem,4vw,2.8rem);font-weight:900;letter-spacing:-.02em;">
+        <span data-en="Get In " data-ar="تواصل ">Get In </span>
+        <span class="g-text" data-en="Touch" data-ar="معي">Touch</span>
+      </h2>
+      <p style="color:var(--txt2);margin-top:14px;max-width:480px;margin-left:auto;margin-right:auto;font-size:.92rem;"
+         data-en="Open to freelance, collaborations, and full-time opportunities. Pick a channel."
+         data-ar="متاح للعمل الحر والتعاون والفرص الكاملة. اختر القناة المناسبة.">
+        Open to freelance, collaborations, and full-time opportunities. Pick a channel.
+      </p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;" class="stagger">
+
+      <!-- WhatsApp -->
+      <a href="https://wa.me/201018588010" target="_blank" rel="noopener noreferrer"
+         class="card tilt ripple-host" style="padding:28px;display:flex;flex-direction:column;gap:14px;text-decoration:none;">
+        <div style="width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--accent) 12%,transparent);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);">
+          <svg width="22" height="22" fill="var(--accent)" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.845L.057 23.49a.5.5 0 00.608.607l5.77-1.507A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.806 9.806 0 01-5.034-1.389l-.36-.214-3.43.896.924-3.353-.235-.374A9.821 9.821 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+        </div>
+        <div>
+          <p style="font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;" data-en="WhatsApp" data-ar="واتساب">WhatsApp</p>
+          <p style="font-weight:700;color:var(--txt);font-size:.95rem;">+20 101 858 8010</p>
+          <p style="font-size:.75rem;color:var(--txt2);margin-top:3px;" data-en="Chat directly" data-ar="تواصل مباشرة">Chat directly</p>
+        </div>
+        <svg style="margin-top:auto;color:var(--muted);" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+      </a>
+
+      <!-- Email -->
+      <a href="mailto:gggsh.commohmed@gmail.com"
+         class="card tilt ripple-host" style="padding:28px;display:flex;flex-direction:column;gap:14px;text-decoration:none;">
+        <div style="width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--cyan) 12%,transparent);border:1px solid color-mix(in srgb,var(--cyan) 25%,transparent);">
+          <svg width="22" height="22" fill="none" stroke="var(--cyan)" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <p style="font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;" data-en="Email" data-ar="البريد الإلكتروني">Email</p>
+          <p style="font-weight:700;color:var(--txt);font-size:.88rem;word-break:break-all;">gggsh.commohmed@gmail.com</p>
+          <p style="font-size:.75rem;color:var(--txt2);margin-top:3px;" data-en="Replies within 24h" data-ar="يرد خلال 24 ساعة">Replies within 24h</p>
+        </div>
+        <svg style="margin-top:auto;color:var(--muted);" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+      </a>
+
+      <!-- CTA -->
+      <div class="ripple-host" style="padding:28px;border-radius:20px;display:flex;flex-direction:column;justify-content:space-between;gap:20px;background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 14%,transparent),color-mix(in srgb,var(--cyan) 8%,transparent));border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);">
+        <div>
+          <p style="color:var(--accent);font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;"
+             data-en="Ready to work together?" data-ar="جاهز للعمل معاً؟">Ready to work together?</p>
+          <p style="color:var(--txt2);font-size:.85rem;line-height:1.65;"
+             data-en="Amazon strategy, media project, or data operations — let's build something that delivers real results."
+             data-ar="استراتيجية أمازون أو مشروع إعلامي أو عمليات بيانات — لنبني شيئًا يحقق نتائج حقيقية.">
+            Amazon strategy, media project, or data operations — let's build something that delivers real results.
+          </p>
+        </div>
+        <a href="https://wa.me/201018588010" target="_blank" rel="noopener noreferrer" class="cta-btn ripple-host" style="justify-content:center;"
+           data-en="Start a Conversation" data-ar="ابدأ محادثة">
+          <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.845L.057 23.49a.5.5 0 00.608.607l5.77-1.507A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.806 9.806 0 01-5.034-1.389l-.36-.214-3.43.896.924-3.353-.235-.374A9.821 9.821 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+          Start a Conversation
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+@media(max-width:768px){
+  #contact .stagger{grid-template-columns:1fr!important;}
+}
+</style>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer style="background:var(--bg2);border-top:1px solid var(--border);padding:28px 24px;position:relative;z-index:2;">
+  <div style="max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;">
+    <span class="g-text" style="font-size:1.3rem;font-weight:900;cursor:default;">AR.</span>
+    <p style="color:var(--muted);font-size:.82rem;text-align:center;"
+       data-en="Abdalrhman Mohamed — E-commerce · Media · Data"
+       data-ar="عبدالرحمن محمد — تجارة إلكترونية · إعلام · بيانات">
+      Abdalrhman Mohamed — E-commerce · Media · Data
+    </p>
+    <div style="display:flex;gap:14px;align-items:center;">
+      <a href="mailto:gggsh.commohmed@gmail.com" style="color:var(--muted);transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+      <a href="https://wa.me/201018588010" target="_blank" rel="noopener noreferrer" style="color:var(--muted);transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.845L.057 23.49a.5.5 0 00.608.607l5.77-1.507A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.806 9.806 0 01-5.034-1.389l-.36-.214-3.43.896.924-3.353-.235-.374A9.821 9.821 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════
+   1. CURSOR GLOW — follows mouse
+═══════════════════════════════════════════ */
+const glow = document.getElementById('cursor-glow');
+window.addEventListener('mousemove', e => {
+  glow.style.left = e.clientX + 'px';
+  glow.style.top  = e.clientY + 'px';
+});
+
+/* ═══════════════════════════════════════════
+   2. PARTICLES CANVAS
+═══════════════════════════════════════════ */
+(function initParticles(){
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], mouse = {x:-999,y:-999};
+  const COUNT = 55;
+
+  function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  window.addEventListener('mousemove', e=>{ mouse.x=e.clientX; mouse.y=e.clientY; });
+
+  function getAccentColor(){
+    return getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#10b981';
+  }
+
+  class Particle {
+    constructor(){this.reset();}
+    reset(){
+      this.x = Math.random()*W; this.y = Math.random()*H;
+      this.r = Math.random()*1.6+.4;
+      this.vx = (Math.random()-.5)*.35; this.vy = (Math.random()-.5)*.35;
+      this.alpha = Math.random()*.5+.15;
+    }
+    update(){
+      this.x+=this.vx; this.y+=this.vy;
+      if(this.x<0||this.x>W||this.y<0||this.y>H) this.reset();
+      /* mouse repel */
+      const dx=this.x-mouse.x, dy=this.y-mouse.y, dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<80){ this.x+=dx/dist*1.5; this.y+=dy/dist*1.5; }
+    }
+    draw(){
+      ctx.beginPath();
+      ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+      ctx.fillStyle = getAccentColor();
+      ctx.globalAlpha = this.alpha;
+      ctx.fill();
+    }
+  }
+  for(let i=0;i<COUNT;i++) particles.push(new Particle());
+
+  function drawLines(){
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<120){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x,particles[i].y);
+          ctx.lineTo(particles[j].x,particles[j].y);
+          ctx.strokeStyle = getAccentColor();
+          ctx.globalAlpha = (1-d/120)*.12;
+          ctx.lineWidth = .7;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p=>{p.update();p.draw();});
+    drawLines();
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+/* ═══════════════════════════════════════════
+   3. SCROLL PROGRESS BAR
+═══════════════════════════════════════════ */
+const progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', ()=>{
+  const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  progressBar.style.width = scrolled + '%';
+});
+
+/* ═══════════════════════════════════════════
+   4. NAVBAR: scrolled class + active links
+═══════════════════════════════════════════ */
+const navbar = document.getElementById('navbar');
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+window.addEventListener('scroll', ()=>{
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+  let current = '';
+  sections.forEach(s=>{
+    if(window.scrollY >= s.offsetTop - 130) current = s.id;
+  });
+  navLinks.forEach(l=>{
+    l.classList.toggle('active', l.getAttribute('href') === '#'+current);
+  });
+});
+
+/* ═══════════════════════════════════════════
+   5. MOBILE MENU
+═══════════════════════════════════════════ */
+function toggleMenu(){
+  const m = document.getElementById('mobile-nav');
+  m.style.display = m.style.display==='flex' ? 'none' : 'flex';
+}
+function closeMenu(){
+  document.getElementById('mobile-nav').style.display='none';
+}
+
+/* ═══════════════════════════════════════════
+   6. THEME TOGGLE (Dark 🌙 / Light ☀️)
+═══════════════════════════════════════════ */
+function toggleTheme(){
+  const html = document.documentElement;
+  const isDark = html.dataset.theme === 'dark';
+  html.dataset.theme = isDark ? 'light' : 'dark';
+  document.getElementById('icon-moon').className = 'theme-icon ' + (isDark ? 'hide' : 'show');
+  document.getElementById('icon-sun').className  = 'theme-icon ' + (isDark ? 'show' : 'hide');
+  /* Persist */
+  localStorage.setItem('theme', html.dataset.theme);
+}
+/* Load saved theme */
+(function(){
+  const saved = localStorage.getItem('theme');
+  if(saved && saved !== 'dark'){
+    document.documentElement.dataset.theme = saved;
+    document.getElementById('icon-moon').className = 'theme-icon hide';
+    document.getElementById('icon-sun').className  = 'theme-icon show';
+  }
+})();
+
+/* ═══════════════════════════════════════════
+   7. LANGUAGE TOGGLE (EN / AR)
+═══════════════════════════════════════════ */
+let currentLang = localStorage.getItem('lang') || 'en';
+function applyLang(lang){
+  currentLang = lang;
+  const isAr = lang === 'ar';
+  document.documentElement.lang = lang;
+  document.documentElement.dir  = isAr ? 'rtl' : 'ltr';
+  document.getElementById('lang-label').textContent = isAr ? 'EN' : 'AR';
+  /* Translate all elements with data-en / data-ar */
+  document.querySelectorAll('[data-en]').forEach(el=>{
+    const txt = el.getAttribute('data-'+lang);
+    if(txt) el.textContent = txt;
+  });
+  /* font switch */
+  document.body.style.fontFamily = isAr ? "'Cairo', sans-serif" : "'Inter', sans-serif";
+  localStorage.setItem('lang', lang);
+}
+function toggleLang(){
+  applyLang(currentLang === 'en' ? 'ar' : 'en');
+}
+/* Load saved lang */
+applyLang(currentLang);
+
+/* ═══════════════════════════════════════════
+   8. INTERSECTION OBSERVER — ANIMATIONS
+═══════════════════════════════════════════ */
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:.1});
+document.querySelectorAll('.fade-up,.fade-left,.fade-right').forEach(el=>io.observe(el));
+
+const ioStagger = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      ioStagger.unobserve(e.target);
+    }
+  });
+},{threshold:.08});
+document.querySelectorAll('.stagger').forEach(el=>ioStagger.observe(el));
+
+/* ═══════════════════════════════════════════
+   9. 3D TILT on cards (mouse tracking)
+═══════════════════════════════════════════ */
+document.querySelectorAll('.tilt').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r = card.getBoundingClientRect();
+    const x = e.clientX - r.left, y = e.clientY - r.top;
+    const cx = r.width/2, cy = r.height/2;
+    const rotX = -(y-cy)/cx * 8;
+    const rotY =  (x-cx)/cx * 8;
+    card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-5px)`;
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transform = '';
+  });
+});
+
+/* ═══════════════════════════════════════════
+   10. RIPPLE EFFECT on clickable elements
+═══════════════════════════════════════════ */
+document.querySelectorAll('.ripple-host').forEach(host=>{
+  host.addEventListener('click',e=>{
+    const r = host.getBoundingClientRect();
+    const size = Math.max(r.width,r.height)*2;
+    const rip = document.createElement('span');
+    rip.className = 'ripple';
+    rip.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-r.left-size/2}px;top:${e.clientY-r.top-size/2}px;`;
+    host.appendChild(rip);
+    setTimeout(()=>rip.remove(), 700);
+  });
+});
+
+/* ═══════════════════════════════════════════
+   11. MAGNETIC BUTTONS (mouse attraction)
+═══════════════════════════════════════════ */
+document.querySelectorAll('.magnetic').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    const r = btn.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width/2)  * .35;
+    const y = (e.clientY - r.top  - r.height/2) * .35;
+    btn.style.transform = `translate(${x}px,${y}px)`;
+  });
+  btn.addEventListener('mouseleave',()=>{
+    btn.style.transform = '';
+  });
+});
+</script>
+</body>
+</html>
